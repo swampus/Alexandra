@@ -26,6 +26,7 @@ The core idea:
 10. [Feature Checklist](#10-feature-checklist)
 11. [Example](#11-example)
 12. [Long-Term Vision](#12-long-term-vision)
+13. [Development Tasks & Roadmap](#development-tasks--roadmap)
 
 
 ---
@@ -58,10 +59,6 @@ For detailed module documentation see the dedicated READMEs for each subsystem:
 
 📘 For a quick hands-on introduction, see:
 ➡️ [GETTING_STARTED.md](./getting-started.md)
-
----
-
-
 
 ---
 
@@ -292,3 +289,30 @@ Not through one large model,
 but through **coordination of many specialized models**.
 
 ---
+
+---
+
+## Development Tasks & Roadmap
+
+For contributors, researchers, and engineers who want to extend the system, see:
+
+➡️ **[TASKS.md](./TASKS.md)**  
+A structured roadmap with tasks grouped by difficulty (Easy / Moderate / Challenging),
+required skills, modules, and recommended branch names.
+
+The task board includes:
+- High-level system roadmap
+- DSL/compiler-related tasks
+- Executor / trainer / oracle / registry tasks
+- Unpublished modules awaiting integration
+- Contribution workflow and branch naming rules
+
+If a branch for a task does not exist, no one is working on it yet.  
+To contribute:
+1. Create the recommended branch.
+2. Implement the task.
+3. Open a Pull Request.
+4. Request a review.
+
+After approval, the work is merged into the system.
+
