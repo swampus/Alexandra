@@ -14,18 +14,19 @@ The core idea:
 ---
 
 ## Table of Contents
-1. Introduction
-2. System Goals
-3. Architecture Overview
-4. Module Documentation Overview
-5. Compilation Pipeline
-6. Execution Model
-7. Training
-8. Task & Rule Languages
-9. Network Clusters & Orchestration
-10. Feature Checklist
-11. Example
-12. Long-Term Vision
+1. [Introduction](#1-introduction)
+2. [System Goals](#2-system-goals)
+3. [Architecture Overview](#3-architecture-overview)
+4. [Module Documentation Overview](#4-module-documentation-overview)
+5. [Compilation Pipeline](#5-compilation-pipeline)
+6. [Execution Model](#6-execution-model)
+7. [Training](#7-training)
+8. [Task & Rule Languages](#8-task--rule-languages)
+9. [Network Clusters & Orchestration](#9-network-clusters--orchestration)
+10. [Feature Checklist](#10-feature-checklist)
+11. [Example](#11-example)
+12. [Long-Term Vision](#12-long-term-vision)
+
 
 ---
 
@@ -44,10 +45,20 @@ Alexandra treats neural networks as **independent agents** with their own:
 
 This README presents the high-level architectural overview of the system.
 
-For detailed module documentation see:
-- ./nureonlang-compiler/nureonlang-compiler-readme.md
-- ./nureonlang-core/nureon-core-readme.md
-- ./nureonlang-ir/nureonlang-ir-readme.md
+For detailed module documentation see the dedicated READMEs for each subsystem:
+
+- **[NureonLang Compiler](./nureonlang-compiler/nureonlang-compiler-readme.md)**  
+  Full documentation of the compiler responsible for parsing, transforming, and building NetworkModel IR from `.nl` source files.
+
+- **[NureonLang Core](./nureonlang-core/nureon-core-readme.md)**  
+  Base abstractions for layers, shapes, symbolic expressions, and shared core types used across the compiler and runtime.
+
+- **[NureonLang IR](./nureonlang-ir/nureonlang-ir-readme.md)**  
+  The intermediate representation format, instruction model, and semantic rules used by the compiler and executor.
+
+---
+
+
 
 ---
 
