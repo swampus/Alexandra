@@ -296,7 +296,7 @@ but through **coordination of many specialized models**.
 
 For contributors, researchers, and engineers who want to extend the system, see:
 
-➡️ **[TASKS.md](./TASKS.md)**  
+➡️ **[TASKS.md](./task.md)**  
 A structured roadmap with tasks grouped by difficulty (Easy / Moderate / Challenging),
 required skills, modules, and recommended branch names.
 
