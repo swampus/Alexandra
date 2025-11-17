@@ -56,6 +56,9 @@ For detailed module documentation see the dedicated READMEs for each subsystem:
 - **[NureonLang IR](./nureonlang-ir/nureonlang-ir-readme.md)**  
   The intermediate representation format, instruction model, and semantic rules used by the compiler and executor.
 
+📘 For a quick hands-on introduction, see:
+➡️ [GETTING_STARTED.md](./getting-started.md)
+
 ---
 
 

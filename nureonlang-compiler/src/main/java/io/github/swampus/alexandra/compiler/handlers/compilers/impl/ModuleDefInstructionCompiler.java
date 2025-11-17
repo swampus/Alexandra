@@ -50,7 +50,6 @@ public class ModuleDefInstructionCompiler implements InstructionCompiler {
             // compileSubInstructions(instr, model, localScope);
             // module.setInternalLayers(localScope);
             //
-            // Пока используется глобальный scope (как у тебя).
             // ---------------------------------------------------------------------
         } else {
             log.debug("Module {} is empty (no body instructions)", name);
