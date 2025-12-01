@@ -22,10 +22,17 @@
         <module>nureonlang-infrastructure</module>
         <module>nureonlang-translator</module>
         <module>nueronlang-compiler-cli</module>
+        <module>api-dto-contract</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>io.github.swampus.alexandra</groupId>
+                <artifactId>api-dto-contract</artifactId>
+                <version>0.1-SNAPSHOT</version>
+            </dependency>
 
             <dependency>
                 <groupId>io.github.swampus.alexandra</groupId>
