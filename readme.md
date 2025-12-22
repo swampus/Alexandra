@@ -60,6 +60,11 @@ For detailed module documentation see the dedicated READMEs for each subsystem:
 - **[Network API Compiler](./networkapi-compiler/readme.md)**  
   REST-based Compiler-as-a-Service exposing parsing and compilation of NureonLang networks via HTTP and OpenAPI (Swagger).
 
+- **[Network API Artifact](./networkapi-artifact/readme.md)**  
+  Defines the versioned runtime artifact format used to serialize compiled networks.
+  Acts as a stable contract between the compiler and downstream systems such as registry,
+  storage, and execution runtime.
+
 📘 For a quick hands-on introduction, see:  
 ➡️ **[GETTING_STARTED.md](./GETTING_STARTED.md)**
 

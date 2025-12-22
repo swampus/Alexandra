@@ -25,6 +25,8 @@
         <module>api-dto-contract</module>
         <module>networkapi-orchestrator</module>
         <module>networkapi-compiler</module>
+        <module>networkapi-artifact</module>
+        <module>networkapi-registry</module>
     </modules>
 
     <dependencyManagement>
@@ -39,6 +41,18 @@
             <dependency>
                 <groupId>io.github.swampus.alexandra</groupId>
                 <artifactId>networkapi-compiler</artifactId>
+                <version>0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.swampus.alexandra</groupId>
+                <artifactId>networkapi-artifact</artifactId>
+                <version>0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.swampus.alexandra</groupId>
+                <artifactId>networkapi-registry</artifactId>
                 <version>0.1-SNAPSHOT</version>
             </dependency>
 
