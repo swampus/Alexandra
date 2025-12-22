@@ -5,6 +5,7 @@ import io.github.swampus.alexandra.compiler.handlers.compilers.InstructionCompil
 import io.github.swampus.alexandra.compiler.handlers.compilers.impl.*;
 import io.github.swampus.alexandra.compiler.handlers.providers.InstructionProvider;
 import io.github.swampus.alexandra.compiler.handlers.providers.impl.InMemoryInstructionProvider;
+import io.github.swampus.alexandra.compiler.model.CompilationIssue;
 import io.github.swampus.alexandra.compiler.model.NetworkModel;
 import io.github.swampus.alexandra.compiler.model.layer.*;
 import io.github.swampus.alexandra.compiler.model.layer.ModuleLayer;
@@ -221,6 +222,12 @@ public final class IRNetworkCompiler {
                             from, to,
                             (fromLayer != null ? fromLayer.getName() : "null"),
                             (toLayer != null ? toLayer.getName() : "null"));
+
+                    model.addIssue(new CompilationIssue(
+                            CompilationIssue.Severity.ERROR,
+                            "CONNECT refers to missing layer: " + from + " -> " + to
+                    ));
+
                     return;
                 }
 

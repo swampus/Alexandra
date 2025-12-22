@@ -49,7 +49,7 @@ This README presents the high-level architectural overview of the system.
 For detailed module documentation see the dedicated READMEs for each subsystem:
 
 - **[NureonLang Compiler](./nureonlang-compiler/nureonlang-compiler-readme.md)**  
-  Full documentation of the compiler responsible for parsing, transforming, and building NetworkModel IR from `.nl` source files.
+  Full documentation of the DSL compiler responsible for parsing, transforming, and building NetworkModel IR from `.nl` source files.
 
 - **[NureonLang Core](./nureonlang-core/nureon-core-readme.md)**  
   Base abstractions for layers, shapes, symbolic expressions, and shared core types used across the compiler and runtime.
@@ -57,8 +57,12 @@ For detailed module documentation see the dedicated READMEs for each subsystem:
 - **[NureonLang IR](./nureonlang-ir/nureonlang-ir-readme.md)**  
   The intermediate representation format, instruction model, and semantic rules used by the compiler and executor.
 
-📘 For a quick hands-on introduction, see:
-➡️ [GETTING_STARTED.md](./getting-started.md)
+- **[Network API Compiler](./networkapi-compiler/README.md)**  
+  REST-based Compiler-as-a-Service exposing parsing and compilation of NureonLang networks via HTTP and OpenAPI (Swagger).
+
+📘 For a quick hands-on introduction, see:  
+➡️ **[GETTING_STARTED.md](./GETTING_STARTED.md)**
+
 
 ---
 

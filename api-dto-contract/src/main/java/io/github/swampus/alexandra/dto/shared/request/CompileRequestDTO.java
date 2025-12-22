@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record CompileRequestDto(
+public record CompileRequestDTO(
 
         /**
          * Human-readable name of the network being compiled.

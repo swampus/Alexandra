@@ -41,16 +41,23 @@ class NureonLangToIRTranslatorImplTest {
     @Test
     void throwsOnInternalException() {
         InternalNureonLangService parserService = mock(InternalNureonLangService.class);
-        when(parserService.parse(any())).thenThrow(new RuntimeException("BOOM"));
+        when(parserService.parse(any()))
+                .thenThrow(new RuntimeException("BOOM"));
 
-        NureonLangToIRTranslatorImpl translator = new NureonLangToIRTranslatorImpl(parserService);
+        NureonLangToIRTranslatorImpl translator =
+                new NureonLangToIRTranslatorImpl(parserService);
 
         NureonLangTranslateException ex = assertThrows(
                 NureonLangTranslateException.class,
                 () -> translator.translate("SOMETHING")
         );
+
+        // Line is unknown → OK
         assertEquals(-1, ex.getErrors().get(0).getLine());
-        assertTrue(ex.getMessage().contains("Internal parser/translation error"));
+
+        // Error message comes from ParseError, not Exception#getMessage
+        assertEquals("BOOM", ex.getErrors().get(0).getMessage());
     }
+
 
 }

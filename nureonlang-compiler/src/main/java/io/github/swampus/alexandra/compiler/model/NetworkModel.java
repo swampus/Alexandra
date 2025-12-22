@@ -24,6 +24,8 @@ import java.util.Map;
  */
 public class NetworkModel {
 
+    private final List<CompilationIssue> issues = new ArrayList<>();
+
     /** All layers in insertion order. */
     private final List<Layer> layers = new ArrayList<>();
 
@@ -39,6 +41,19 @@ public class NetworkModel {
 
     /** Macro registry by name. */
     private final Map<String, Instruction> macros = new LinkedHashMap<>();
+
+    public void addIssue(CompilationIssue issue) {
+        issues.add(issue);
+    }
+
+    public List<CompilationIssue> getIssues() {
+        return List.copyOf(issues);
+    }
+
+    public boolean hasErrors() {
+        return issues.stream()
+                .anyMatch(i -> i.severity() == CompilationIssue.Severity.ERROR);
+    }
 
     /**
      * Returns the backing list of all layers.

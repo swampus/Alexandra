@@ -7,57 +7,116 @@ import io.github.swampus.alexandra.translator.NureonLangToIRTranslator;
 import io.github.swampus.alexandra.translator.exception.NureonLangTranslateException;
 import io.github.swampus.alexandra.translator.exception.ParseError;
 import io.github.swampus.alexandra.visitor.NureonLangToIRVisitor;
+import org.antlr.v4.runtime.RecognitionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-public class NureonLangToIRTranslatorImpl implements NureonLangToIRTranslator {
+/**
+ * Translates NeuroLang source code into an intermediate representation (IR).
+ *
+ * <p>Responsibilities:
+ * <ul>
+ *   <li>Invoke ANTLR parser</li>
+ *   <li>Run IR visitor</li>
+ *   <li>Normalize parsing and translation errors</li>
+ * </ul>
+ */
+public final class NureonLangToIRTranslatorImpl implements NureonLangToIRTranslator {
+
+    private static final Logger log =
+            LoggerFactory.getLogger(NureonLangToIRTranslatorImpl.class);
+
     private final InternalNureonLangService parserService;
 
-    public NureonLangToIRTranslatorImpl(InternalNureonLangService parserService) {
+    public NureonLangToIRTranslatorImpl(
+            InternalNureonLangService parserService
+    ) {
         this.parserService = parserService;
     }
 
     @Override
     public Instruction translate(String code) {
-        System.out.println("\n CODE COME: " + code);
+        log.debug("Starting NeuroLang translation (source length={} chars)",
+                code == null ? 0 : code.length());
+
         try {
-            NureonLangParser.ProgramContext ctx = parserService.parse(code);
+            var programContext = parse(code);
+            var result = visit(programContext);
 
-            NureonLangToIRVisitor visitor = new NureonLangToIRVisitor();
-            Instruction result = visitor.visitProgram(ctx);
-
-            if (!visitor.getErrors().isEmpty()) {
-                throw new NureonLangTranslateException(visitor.getErrors());
-            }
-
+            log.info("NeuroLang translation completed successfully");
             return result;
+
         } catch (NureonLangTranslateException e) {
+            // Expected user-facing error: syntax or semantic
+            log.warn("NeuroLang translation failed with {} error(s)",
+                    e.getErrors().size());
             throw e;
+
         } catch (Exception e) {
-            ParseError err = new ParseError(
-                    "Internal parser/translation error: " + safeMsg(e),
-                    findLine(e),
-                    findCharPos(e)
-            );
-            throw new NureonLangTranslateException(List.of(err));
+            // Unexpected internal failure
+            log.error("Unexpected internal error during NeuroLang translation", e);
+            throw wrapUnexpectedError(e);
         }
     }
 
-    private String safeMsg(Throwable e) {
-        if (e == null) return "(null)";
-        String msg = e.getMessage();
-        if (msg == null || msg.isBlank()) msg = e.getClass().getSimpleName();
-        return msg;
+    // ===================== INTERNAL STEPS =====================
+
+    private NureonLangParser.ProgramContext parse(String code) {
+        log.debug("Parsing NeuroLang source");
+        return parserService.parse(code);
     }
 
-    private int findLine(Throwable e) {
-        if (e instanceof org.antlr.v4.runtime.RecognitionException rex && rex.getOffendingToken() != null) {
+    private Instruction visit(NureonLangParser.ProgramContext ctx) {
+        log.debug("Visiting AST and building IR");
+
+        var visitor = new NureonLangToIRVisitor();
+        var result = visitor.visitProgram(ctx);
+
+        if (!visitor.getErrors().isEmpty()) {
+            log.warn("IR visitor reported {} semantic error(s)",
+                    visitor.getErrors().size());
+            throw new NureonLangTranslateException(visitor.getErrors());
+        }
+
+        return result;
+    }
+
+    // ===================== ERROR HANDLING =====================
+
+    private NureonLangTranslateException wrapUnexpectedError(Exception e) {
+        return new NureonLangTranslateException(
+                List.of(new ParseError(
+                        buildSafeMessage(e),
+                        extractLine(e),
+                        extractCharPosition(e)
+                ))
+        );
+    }
+
+    private String buildSafeMessage(Throwable e) {
+        if (e == null) {
+            return "Unknown internal error";
+        }
+
+        var message = e.getMessage();
+        return (message == null || message.isBlank())
+                ? e.getClass().getSimpleName()
+                : message;
+    }
+
+    private int extractLine(Throwable e) {
+        if (e instanceof RecognitionException rex
+                && rex.getOffendingToken() != null) {
             return rex.getOffendingToken().getLine();
         }
         return -1;
     }
-    private int findCharPos(Throwable e) {
-        if (e instanceof org.antlr.v4.runtime.RecognitionException rex && rex.getOffendingToken() != null) {
+
+    private int extractCharPosition(Throwable e) {
+        if (e instanceof RecognitionException rex
+                && rex.getOffendingToken() != null) {
             return rex.getOffendingToken().getCharPositionInLine();
         }
         return -1;

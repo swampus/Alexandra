@@ -2,6 +2,9 @@ package io.github.swampus.alexandra.dto.shared.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.github.swampus.alexandra.dto.shared.ParseErrorDto;
+
+import java.util.List;
 
 /**
  * Represents the result of a source parsing or validation operation.
@@ -21,7 +24,7 @@ public record ParseResponseDto(
         /**
          * Optional high-level error message if parsing failed.
          */
-        String error
+        List<ParseErrorDto> errors
 
 ) {
 
@@ -29,6 +32,6 @@ public record ParseResponseDto(
      * @return {@code true} if parsing failed and an error message is present.
      */
     public boolean hasError() {
-        return !valid && error != null && !error.isEmpty();
+        return !valid && errors != null && !errors.isEmpty();
     }
 }
