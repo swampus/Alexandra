@@ -57,7 +57,7 @@ For detailed module documentation see the dedicated READMEs for each subsystem:
 - **[NureonLang IR](./nureonlang-ir/nureonlang-ir-readme.md)**  
   The intermediate representation format, instruction model, and semantic rules used by the compiler and executor.
 
-- **[Network API Compiler](./networkapi-compiler/README.md)**  
+- **[Network API Compiler](./networkapi-compiler/readme.md)**  
   REST-based Compiler-as-a-Service exposing parsing and compilation of NureonLang networks via HTTP and OpenAPI (Swagger).
 
 📘 For a quick hands-on introduction, see:  
