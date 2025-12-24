@@ -1,0 +1,4 @@
+registry:
+  storage:
+    type: fs     # memory | fs
+    path: ./registry-data

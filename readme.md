@@ -49,7 +49,7 @@ This README presents the high-level architectural overview of the system.
 For detailed module documentation see the dedicated READMEs for each subsystem:
 
 - **[NureonLang Compiler](./nureonlang-compiler/nureonlang-compiler-readme.md)**  
-  Full documentation of the DSL compiler responsible for parsing, transforming, and building NetworkModel IR from `.nl` source files.
+  Full documentation of the DSL compiler responsible for parsing, transforming, and building `NetworkModel` IR from `.nl` source files.
 
 - **[NureonLang Core](./nureonlang-core/nureon-core-readme.md)**  
   Base abstractions for layers, shapes, symbolic expressions, and shared core types used across the compiler and runtime.
@@ -61,12 +61,18 @@ For detailed module documentation see the dedicated READMEs for each subsystem:
   REST-based Compiler-as-a-Service exposing parsing and compilation of NureonLang networks via HTTP and OpenAPI (Swagger).
 
 - **[Network API Artifact](./networkapi-artifact/readme.md)**  
-  Defines the versioned runtime artifact format used to serialize compiled networks.
+  Defines the versioned runtime artifact format used to serialize compiled networks.  
   Acts as a stable contract between the compiler and downstream systems such as registry,
   storage, and execution runtime.
 
+- **[Network API Registry](./networkapi-registry/readme.md)**  
+  Low-level artifact storage and indexing subsystem responsible for persisting serialized
+  `RuntimeNetworkModel` payloads together with searchable metadata.  
+  The registry is storage-focused and intentionally unaware of network semantics.
+
 📘 For a quick hands-on introduction, see:  
 ➡️ **[GETTING_STARTED.md](./GETTING_STARTED.md)**
+
 
 
 ---
