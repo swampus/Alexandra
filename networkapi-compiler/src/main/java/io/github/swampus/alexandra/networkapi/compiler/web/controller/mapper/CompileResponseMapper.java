@@ -6,13 +6,11 @@ import io.github.swampus.alexandra.dto.shared.response.CompileResponseDto;
 import io.github.swampus.alexandra.dto.shared.response.ParseResponseDto;
 import io.github.swampus.alexandra.networkapi.compiler.application.usecase.CompileNetworkUseCase;
 import io.github.swampus.alexandra.networkapi.compiler.application.usecase.ParseNueronLangSourceUseCase;
-import io.github.swampus.alexandra.nureonlang.parser.impl.SyntaxError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Maps application-layer use case results to REST response DTOs.
@@ -38,17 +36,20 @@ public class CompileResponseMapper {
             CompileNetworkUseCase.CompileResult result
     ) {
         return new CompileResponseDto(
-                serializeSafely(result.getModel()),
-                result.getError(),
-                result.getTrace(),
-                result.getParseErrors(),
-                result.getModel()
+                serializeSafely(result.getModel()), // modelJson
+                result.getError(),                   // error
+                result.getTrace(),                   // compilationTrace
+                result.getParseErrors(),             // parseErrors
+                result.getModel(),                   // model
+                result.getPayload()                  // payload
         );
     }
 
     // ===================== PARSE =====================
 
-    public ParseResponseDto toParseDto(ParseNueronLangSourceUseCase.ParseResult result) {
+    public ParseResponseDto toParseDto(
+            ParseNueronLangSourceUseCase.ParseResult result
+    ) {
         if (result.isValid()) {
             return new ParseResponseDto(true, List.of());
         }
@@ -64,31 +65,14 @@ public class CompileResponseMapper {
         );
     }
 
-    private String buildParseErrorMessage(
-            ParseNueronLangSourceUseCase.ParseResult result
-    ) {
-        if (result.getFailureReason() != null) {
-            return switch (result.getFailureReason()) {
-                case INTERNAL_ERROR -> "Internal parser error";
-                case SYNTAX_ERROR -> formatSyntaxErrors(result.getErrors());
-            };
-        }
-
-        return "Unknown parse error";
-    }
-
-    private String formatSyntaxErrors(List<SyntaxError> errors) {
-        if (errors == null || errors.isEmpty()) {
-            return "Syntax error";
-        }
-
-        return errors.stream()
-                .map(SyntaxError::toString)
-                .collect(Collectors.joining("\n"));
-    }
-
     // ===================== UTIL =====================
 
+    /**
+     * Serializes a model to JSON for presentation or debugging purposes.
+     *
+     * <p>Serialization failures are intentionally ignored and do not
+     * affect the compilation result.</p>
+     */
     private String serializeSafely(Object model) {
         if (model == null) {
             return null;
@@ -99,9 +83,11 @@ public class CompileResponseMapper {
         } catch (Exception e) {
             log.debug(
                     "Failed to serialize compiled network model to JSON. " +
-                            "This does not affect compilation result.", e
+                            "This does not affect compilation result.",
+                    e
             );
             return null;
         }
     }
 }
+

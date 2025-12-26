@@ -54,7 +54,9 @@ public record SearchArtifactRequestDTO(
         /**
          * Optional offset for pagination.
          */
-        Integer offset
+        Integer offset,
+
+        List<String> tags
 
 ) {
 

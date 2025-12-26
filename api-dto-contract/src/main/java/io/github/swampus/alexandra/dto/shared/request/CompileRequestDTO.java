@@ -52,6 +52,18 @@ public record CompileRequestDTO(
 
 ) {
 
+    public CompileRequestDTO(String source, boolean trace) {
+        this(
+                null,       // name
+                source,     // source
+                null,       // author
+                null,       // description
+                trace,      // compilationTraceRequired
+                false       // optimizeAllowed
+        );
+    }
+
+
     /**
      * @return {@code true} if at least one optional advanced flag is enabled.
      */
