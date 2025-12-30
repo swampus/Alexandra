@@ -37,22 +37,34 @@ import java.util.List;
 @AllArgsConstructor
 public class CompileNetworkUseCase {
 
-    /** Translates NureonLang source code into IR instructions. */
+    /**
+     * Translates NureonLang source code into IR instructions.
+     */
     private final NureonLangToIRTranslator translator;
 
-    /** Compiles IR into an internal network model. */
+    /**
+     * Compiles IR into an internal network model.
+     */
     private final NetworkCompilerPort networkCompilerPort;
 
-    /** Maps IR instructions into DTO form for diagnostics and inspection. */
+    /**
+     * Maps IR instructions into DTO form for diagnostics and inspection.
+     */
     private final InstructionMapperPort instructionMapper;
 
-    /** Maps compiled network models into shared network DTOs. */
+    /**
+     * Maps compiled network models into shared network DTOs.
+     */
     private final NetworkModelMapperPort modelMapper;
 
-    /** Performs semantic and structural validation of compiled models. */
+    /**
+     * Performs semantic and structural validation of compiled models.
+     */
     private final NetworkModelValidator validator;
 
-    /** Builds a canonical binary payload suitable for persistent storage. */
+    /**
+     * Builds a canonical binary payload suitable for persistent storage.
+     */
     private final CompilePayloadPort payloadBuilder;
 
     /**
@@ -63,10 +75,9 @@ public class CompileNetworkUseCase {
      * for expected compilation failures; all errors are reported via
      * {@link CompileResult}.
      *
-     * @param source           NureonLang source code
-     * @param traceRequired    whether a detailed compilation trace should be collected
-     * @param validationLevel  level of post-compilation validation to apply
-     *
+     * @param source          NureonLang source code
+     * @param traceRequired   whether a detailed compilation trace should be collected
+     * @param validationLevel level of post-compilation validation to apply
      * @return structured compilation result containing model, payload and diagnostics
      */
     public CompileResult compile(
@@ -74,45 +85,48 @@ public class CompileNetworkUseCase {
             boolean traceRequired,
             ValidationLevel validationLevel
     ) {
+        final Instruction ir;
+
         try {
-            // 1. Translate source code into intermediate representation (IR)
-            Instruction ir = translator.translate(source);
-
-            // 2. Compile IR into an internal network model
-            NetworkCompilerPort.CompilationOutput output =
-                    networkCompilerPort.compile(ir, traceRequired);
-
-            NetworkModel model = output.model();
-
-            // 3. Perform optional semantic / structural validation
-            if (validationLevel != ValidationLevel.NONE) {
-                validator.validate(model);
-            }
-
-            // 4. Map IR and model into transport-friendly DTOs
-            InstructionDto irDto = instructionMapper.toDto(ir);
-            NNetworkDto networkDto =
-                    modelMapper.mapModelToDto(model, source, irDto);
-
-            // 5. Build canonical binary payload for persistence
-            byte[] payload =
-                    payloadBuilder.buildPayload(model, ir, source);
-
-            return CompileResult.success(
-                    networkDto,
-                    payload,
-                    output.trace()
-            );
+            // 1. Translate source code into IR
+            ir = translator.translate(source);
 
         } catch (NureonLangTranslateException e) {
-            // Syntax or translation errors detected during parsing
+            // Syntax OR semantic errors
             return CompileResult.failure(
                     "PARSE_ERROR",
                     null,
                     mapParseErrors(e)
             );
         }
+
+        // 2. Compile IR into an internal network model
+        NetworkCompilerPort.CompilationOutput output =
+                networkCompilerPort.compile(ir, traceRequired);
+
+        NetworkModel model = output.model();
+
+        // 3. Optional validation
+        if (validationLevel != ValidationLevel.NONE) {
+            validator.validate(model);
+        }
+
+        // 4. Map IR and model into DTOs
+        InstructionDto irDto = instructionMapper.toDto(ir);
+        NNetworkDto networkDto =
+                modelMapper.mapModelToDto(model, source, irDto);
+
+        // 5. Build payload
+        byte[] payload =
+                payloadBuilder.buildPayload(model, ir, source);
+
+        return CompileResult.success(
+                networkDto,
+                payload,
+                output.trace()
+        );
     }
+
 
     // ====== RESULT TYPE (INNER CLASS) ======
 

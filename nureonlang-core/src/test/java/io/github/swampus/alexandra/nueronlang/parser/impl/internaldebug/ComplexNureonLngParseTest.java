@@ -1,4 +1,4 @@
-package io.github.swampus.alexandra.nureonlang.parser.impl.internaldebug;
+package io.github.swampus.alexandra.nueronlang.parser.impl.internaldebug;
 
 import io.github.swampus.alexandra.nureonlang.parser.impl.InternalNureonLangServiceImpl;
 import io.github.swampus.alexandra.nureonlang.parser.impl.SyntaxCheckResult;

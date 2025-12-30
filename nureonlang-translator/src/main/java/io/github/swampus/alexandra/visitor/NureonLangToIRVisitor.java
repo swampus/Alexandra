@@ -69,28 +69,26 @@ public class NureonLangToIRVisitor extends NureonLangBaseVisitor<Instruction> {
     // LAYER declarations (anonymous)
     @Override
     public Instruction visitAnonLayer(NureonLangParser.AnonLayerContext ctx) {
-        String type = ctx.ID().getText();
+        String name = ctx.ID().getText();
+        String type = name.toLowerCase();
+
         Map<String, Object> params = parseParams(ctx.param());
-        String name = (String) params.get("name");
+
         Integer size = extractParam(params, "size");
-
-        if (type == null || type.isBlank()) {
-            addError("Layer type is missing in anonymous layer", ctx);
-        }
-        if (size == null) {
-            addError("Layer 'size' parameter is missing in anonymous layer", ctx);
-        }
-
         String activation = (String) params.get("activation");
         Object shape = params.get("shape");
         Integer dim = extractParam(params, "dim");
         Integer heads = extractParam(params, "heads");
         Integer depth = extractParam(params, "depth");
 
+        if (size == null) {
+            addError("Layer 'size' parameter is missing in anonymous layer", ctx);
+        }
+
         return Instruction.builder()
                 .op(OpCode.LAYER)
-                .type(type)
                 .name(name)
+                .type(type)
                 .size(size)
                 .activation(activation)
                 .shape(shape)
@@ -100,6 +98,7 @@ public class NureonLangToIRVisitor extends NureonLangBaseVisitor<Instruction> {
                 .params(params)
                 .build();
     }
+
 
 
     @Override

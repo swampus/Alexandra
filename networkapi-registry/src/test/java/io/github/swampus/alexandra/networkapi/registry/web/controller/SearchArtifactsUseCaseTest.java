@@ -29,7 +29,7 @@ class SearchArtifactsUseCaseTest {
         indexStore.upsert(meta);
 
         SearchArtifactRequestDTO req =
-                new SearchArtifactRequestDTO("a1", null, null, null, null, null, null);
+                new SearchArtifactRequestDTO("a1", null, null, null, null, null, null, null);
 
         List<ArtifactMetadata> result = useCase.execute(req);
 
@@ -43,7 +43,8 @@ class SearchArtifactsUseCaseTest {
         indexStore.upsert(sample("a2", "c1", "t2"));
 
         SearchArtifactRequestDTO req =
-                new SearchArtifactRequestDTO(null, "c1", null, null, null, null, null);
+                new SearchArtifactRequestDTO(null, "c1", null, null, null, null, null, null);
+
 
         assertEquals(2, useCase.execute(req).size());
     }

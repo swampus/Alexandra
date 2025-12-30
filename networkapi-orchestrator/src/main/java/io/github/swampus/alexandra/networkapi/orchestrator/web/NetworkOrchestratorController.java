@@ -162,7 +162,7 @@ public class NetworkOrchestratorController {
             description = "Returns metadata and summary information for a specific stored network artifact."
     )
     @GetMapping("/{artifactId}")
-    public NetworkSummaryDto getById(@PathVariable String artifactId) {
+    public NetworkSummaryDto getById(@PathVariable("artifactId") String artifactId) {
         return getByIdUseCase.getById(artifactId);
     }
 
@@ -175,7 +175,7 @@ public class NetworkOrchestratorController {
             description = "Removes the specified network artifact from the registry."
     )
     @DeleteMapping("/{artifactId}")
-    public void delete(@PathVariable String artifactId) {
+    public void delete(@PathVariable("artifactId") String artifactId) {
         deleteUseCase.delete(artifactId);
     }
 }

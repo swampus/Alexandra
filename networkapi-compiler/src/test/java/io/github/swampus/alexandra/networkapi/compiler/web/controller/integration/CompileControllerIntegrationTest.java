@@ -15,12 +15,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Full-stack integration tests for CompileController.
  *
- * These tests validate the real NeuroLang grammar,
- * translator, and compiler behavior end-to-end.
- *
  * Contract:
- *  - /parse validates syntax only
- *  - /compile validates semantic + logical correctness
+ *  - /parse  -> syntax only, may return 400
+ *  - /compile -> always 200, errors reported in body
  */
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -51,7 +48,7 @@ class CompileControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("PARSE: invalid syntax should return errors")
+    @DisplayName("PARSE: invalid syntax should return 400 with errors")
     void parse_invalidSource_shouldReturnErrors() throws Exception {
 
         String source = """
@@ -65,7 +62,6 @@ class CompileControllerIntegrationTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.valid").value(false))
                 .andExpect(jsonPath("$.errors").isArray())
-                // ANTLR may report multiple syntax errors — this is expected
                 .andExpect(jsonPath("$.errors.length()").value(greaterThanOrEqualTo(1)));
     }
 
@@ -94,7 +90,6 @@ class CompileControllerIntegrationTest {
     @DisplayName("COMPILE: semantic error should return unsuccessful result")
     void compile_semanticError_shouldReturnError() throws Exception {
 
-        // 'units' is not a valid parameter according to the DSL
         String source = """
             LAYER Input size=4
             LAYER Dense units=8
@@ -129,9 +124,6 @@ class CompileControllerIntegrationTest {
 
     // ===================== UTIL =====================
 
-    /**
-     * Wraps source code into JSON request body.
-     */
     private static String json(String source) {
         return """
             {

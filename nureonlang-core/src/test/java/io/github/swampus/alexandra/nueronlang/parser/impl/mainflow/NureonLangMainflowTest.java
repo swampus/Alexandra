@@ -1,4 +1,4 @@
-package io.github.swampus.alexandra.nureonlang.parser.impl.mainflow;
+package io.github.swampus.alexandra.nueronlang.parser.impl.mainflow;
 
 import io.github.swampus.alexandra.nureonlang.antlr4.NureonLangLexer;
 import io.github.swampus.alexandra.nureonlang.antlr4.NureonLangParser;

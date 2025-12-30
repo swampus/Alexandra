@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.github.swampus.alexandra.compiler.IRNetworkCompiler;
 import io.github.swampus.alexandra.compiler.NetworkCompilerFacade;
+import io.github.swampus.alexandra.compiler.validator.NetworkModelValidator;
 import io.github.swampus.alexandra.networkapi.compiler.application.port.InstructionMapperPort;
 import io.github.swampus.alexandra.networkapi.compiler.application.port.NetworkCompilerPort;
 import io.github.swampus.alexandra.networkapi.compiler.application.port.NetworkModelMapperPort;

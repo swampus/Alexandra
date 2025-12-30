@@ -168,6 +168,7 @@ public final class IRNetworkCompiler {
 
         switch (instr.getOp()) {
             case LAYER: {
+                log.error("DEBUG LAYER: name={}, type={}", instr.getName(), instr.getType());
                 String name = instr.getName();
                 String type = instr.getType();
 

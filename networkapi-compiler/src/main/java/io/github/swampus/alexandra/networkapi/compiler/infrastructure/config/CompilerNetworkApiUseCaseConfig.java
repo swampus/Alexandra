@@ -1,6 +1,7 @@
 package io.github.swampus.alexandra.networkapi.compiler.infrastructure.config;
 
 import io.github.swampus.alexandra.compiler.validator.NetworkModelValidator;
+import io.github.swampus.alexandra.networkapi.compiler.application.port.CompilePayloadPort;
 import io.github.swampus.alexandra.networkapi.compiler.application.port.InstructionMapperPort;
 import io.github.swampus.alexandra.networkapi.compiler.application.port.NetworkCompilerPort;
 import io.github.swampus.alexandra.networkapi.compiler.application.port.NetworkModelMapperPort;
@@ -63,14 +64,17 @@ public class CompilerNetworkApiUseCaseConfig {
             InstructionMapperPort instructionMapperPort,
             NetworkModelMapperPort modelMapper,
             NetworkCompilerPort networkCompilerPort,
-            NetworkModelValidator validator
+            NetworkModelValidator validator,
+            CompilePayloadPort payloadBuilder          // ✅ ДОБАВЛЕНО
     ) {
         return new CompileNetworkUseCase(
                 translator,
                 networkCompilerPort,
                 instructionMapperPort,
                 modelMapper,
-                validator
+                validator,
+                payloadBuilder                           // ✅ ПЕРЕДАН
         );
     }
+
 }
