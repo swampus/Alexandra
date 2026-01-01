@@ -4,6 +4,7 @@ import io.github.swampus.alexandra.compiler.model.layer.ConditionalLayer;
 import io.github.swampus.alexandra.compiler.model.layer.InputLayer;
 import io.github.swampus.alexandra.compiler.model.layer.Layer;
 import io.github.swampus.alexandra.compiler.model.layer.OutputLayer;
+import io.github.swampus.alexandra.contract.model.ModelWithMeta;
 import io.github.swampus.alexandra.ir.model.Instruction;
 import lombok.Getter;
 
@@ -22,7 +23,7 @@ import java.util.Map;
  *
  * @since 0.9.0
  */
-public class NetworkModel {
+public class NetworkModel implements ModelWithMeta {
 
     private final List<CompilationIssue> issues = new ArrayList<>();
 
@@ -48,6 +49,11 @@ public class NetworkModel {
 
     public List<CompilationIssue> getIssues() {
         return List.copyOf(issues);
+    }
+
+    @Override
+    public Map<String, Object> meta() {
+        return meta;
     }
 
     public boolean hasErrors() {

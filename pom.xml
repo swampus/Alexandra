@@ -16,6 +16,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>alexandra-contract</module>
         <module>nureonlang-core</module>
         <module>nureonlang-compiler</module>
         <module>nureonlang-ir</module>
@@ -27,6 +28,7 @@
         <module>networkapi-compiler</module>
         <module>networkapi-artifact</module>
         <module>networkapi-registry</module>
+        <module>networkapi-weight</module>
     </modules>
 
     <dependencyManagement>
@@ -35,6 +37,18 @@
             <dependency>
                 <groupId>io.github.swampus.alexandra</groupId>
                 <artifactId>networkapi-orchestrator</artifactId>
+                <version>0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.swampus.alexandra</groupId>
+                <artifactId>alexandra-contract</artifactId>
+                <version>0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.swampus.alexandra</groupId>
+                <artifactId>networkapi-weight</artifactId>
                 <version>0.1-SNAPSHOT</version>
             </dependency>
 
@@ -139,6 +153,12 @@
                 <groupId>net.objecthunter</groupId>
                 <artifactId>exp4j</artifactId>
                 <version>0.4.8</version>
+            </dependency>
+
+            <dependency>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>3.1.1</version>
             </dependency>
 
             <dependency>

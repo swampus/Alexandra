@@ -1,0 +1,27 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.github.swampus.alexandra</groupId>
+    <artifactId>alexandra</artifactId>
+    <version>0.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>networkapi-weight</artifactId>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>io.github.swampus.alexandra</groupId>
+      <artifactId>alexandra-contract</artifactId>
+    </dependency>
+
+    <!-- Tests -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+</project>

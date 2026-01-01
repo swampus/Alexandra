@@ -26,6 +26,11 @@
 
         <dependency>
             <groupId>io.github.swampus.alexandra</groupId>
+            <artifactId>alexandra-contract</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.swampus.alexandra</groupId>
             <artifactId>nureonlang-infrastructure</artifactId>
         </dependency>
 
