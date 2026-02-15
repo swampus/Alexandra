@@ -51,6 +51,10 @@ For detailed module documentation see the dedicated READMEs for each subsystem:
 - **[NureonLang Compiler](./nureonlang-compiler/nureonlang-compiler-readme.md)**  
   Full documentation of the DSL compiler responsible for parsing, transforming, and building `NetworkModel` IR from `.nl` source files.
 
+- **[Neural Development Engine](./nureonlang-compiler/development-engine-readme.md)**  
+  Describes the genome-based development phase that expands generative NureonLang programs
+  (loops, conditionals, macros) into concrete IR before compilation.
+
 - **[NureonLang Core](./nureonlang-core/nureon-core-readme.md)**  
   Base abstractions for layers, shapes, symbolic expressions, and shared core types used across the compiler and runtime.
 

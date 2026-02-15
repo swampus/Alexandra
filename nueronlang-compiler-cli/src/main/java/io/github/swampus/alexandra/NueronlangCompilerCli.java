@@ -1,5 +1,6 @@
 package io.github.swampus.alexandra.cli;
 
+import io.github.swampus.alexandra.compiler.CompileMode;
 import io.github.swampus.alexandra.compiler.NetworkCompilerFacade;
 import io.github.swampus.alexandra.compiler.model.NetworkModel;
 import io.github.swampus.alexandra.compiler.model.layer.Layer;
@@ -16,14 +17,14 @@ import java.util.Locale;
 
 /**
  * Minimal command-line entrypoint for the NureonLang compiler.
- *
+ * <p>
  * Usage:
- *   java -jar nueronlang-compiler-cli.jar compile path/to/model.nl [--validation none|structural|shapes]
- *
+ * java -jar nueronlang-compiler-cli.jar compile path/to/model.nl [--validation none|structural|shapes]
+ * <p>
  * This CLI:
- *  - parses a NureonLang source file,
- *  - compiles it into a NetworkModel,
- *  - prints a short summary via logger.
+ * - parses a NureonLang source file,
+ * - compiles it into a NetworkModel,
+ * - prints a short summary via logger.
  */
 public final class NueronlangCompilerCli {
 
@@ -60,18 +61,19 @@ public final class NueronlangCompilerCli {
         log.info("""
                 NueronLang Compiler CLI
                 -----------------------
-                
+
                 Usage:
-                  nueronlang-compiler-cli compile <source.nl> [--validation none|structural|shapes]
-                
-                Commands:
-                  compile     Parse and compile a NureonLang source file into a NetworkModel.
-                
-                Options (for `compile`):
+                  nueronlang-compiler-cli compile <source.nl> [--validation none|structural|shapes] [--dev]
+
+                Options:
                   --validation LEVEL
                       Validation level: none | structural | shapes
                       Default: shapes
+
+                  --dev
+                      Enable development mode (genome expansion before compilation)
                 """);
+
     }
 
     private int handleCompileCommand(String[] args) {
@@ -83,17 +85,22 @@ public final class NueronlangCompilerCli {
 
         String sourcePath = args[0];
         ValidationLevel level = ValidationLevel.SHAPES; // default
+        CompileMode mode = CompileMode.DIRECT;
 
         // Parse optional flags
         for (int i = 1; i < args.length; i++) {
+
             if ("--validation".equals(args[i]) && i + 1 < args.length) {
                 level = parseValidationLevel(args[++i]);
+            } else if ("--dev".equals(args[i])) {
+                mode = CompileMode.DEVELOPMENT;
             } else {
                 System.err.println("Unknown option: " + args[i]);
                 printUsage();
                 return 1;
             }
         }
+
 
         try {
             Path path = Path.of(sourcePath);
@@ -109,7 +116,10 @@ public final class NueronlangCompilerCli {
 
             log.info("Compiling with validation level: {}", level);
             NetworkCompilerFacade compiler = new NetworkCompilerFacade(level);
-            NetworkModel model = compiler.compile(root);
+
+            log.info("Compile mode: {}", mode);
+
+            NetworkModel model = compiler.compile(root, mode);
 
             printModelSummary(model);
             log.info("Compilation finished successfully.");

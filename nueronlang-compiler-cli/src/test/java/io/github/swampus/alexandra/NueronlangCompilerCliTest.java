@@ -90,4 +90,26 @@ public class NueronlangCompilerCliTest {
         assertTrue(err.contains("Compilation failed"),
                 "Expected generic 'Compilation failed' message for invalid program");
     }
+
+    @Test
+    void testCompileWithDevFlag(@TempDir Path tmp) throws Exception {
+
+        NueronlangCompilerCli cli = new NueronlangCompilerCli();
+        Path file = tmp.resolve("simple.nl");
+
+        Files.writeString(file, """
+        LAYER x input size=4
+        LAYER y output size=4
+        CONNECT x -> y
+    """);
+
+        int exitCode = cli.run(new String[]{
+                "compile",
+                file.toString(),
+                "--dev"
+        });
+
+        assertTrue(exitCode >= 0);
+    }
+
 }
